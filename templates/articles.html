@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <h3>Makaleler</h3>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <form>
+            {% csrf_token %}
+            <input type="text" class="input" maxlength="64" placeholder="Search..." name="sw">
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+        </form>
+</div>
+</div>
+{% if articles %}
+<div class="row">
+    {% for article in articles %}
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <a href="{% url 'article:detail' article.id %}"><h3 class="mt-4">{{article.title}}</h3></a>
+                <!-- Author -->
+                <p class="lead">by {{article.author.username}}</p>
+                <hr>
+                <!-- Date/Time -->
+                <p>Posted on: {{article.created_date}}</p>
+                {% if article.article_image %}
+                    <!-- Preview Image -->
+                    <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt=""></a>
+                {% endif %}
+                <hr>
+                <!-- Post Content -->
+                <p >{{article.content|safe|truncatewords:70}}</p>
+                <a href="{% url 'article:detail' article.id %}">Devamını oku...</a>
+            </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="alert alert-danger">No articles found...</div>
+</div>
+</div>
+{% endif %}
+
+{% endblock body %}
