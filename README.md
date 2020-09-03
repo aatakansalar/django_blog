@@ -1,1 +1,1 @@
-# tutorial django blog projesi 
+# django blog projesi 
